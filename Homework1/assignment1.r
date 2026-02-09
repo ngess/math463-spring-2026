@@ -10,12 +10,12 @@
 
 print("_____ Part 1 _____")
 
-dice_conditional_probability <- function(B, A_and_B) {
+conditional_probability <- function(B, A_and_B) {
     A_given_B <- A_and_B / B
     return(A_given_B)
 }
 
-p_a_given_b <- dice_conditional_probability(1/2, 1/3)
+p_a_given_b <- conditional_probability(1/2, 1/3)
 print(paste("p(A|B) =", p_a_given_b))
 
 
@@ -35,7 +35,7 @@ dice_simulation <- function(n){
     a = even_rolls / n
     b = greater_than_three_rolls / n
 
-    a_given_b <- dice_conditional_probability(greater_than_three_rolls, even_and_greater_than_three_rolls)
+    a_given_b <- conditional_probability(greater_than_three_rolls, even_and_greater_than_three_rolls)
     return(list("P(A)"=a, "P(B)"=b, "P(A|B)"=a_given_b))
 }
 
@@ -84,7 +84,7 @@ weighted_dice_simulation <- function(n, probabilities) {
 
     p_c_and_d = length(rolls[rolls %% 3 == 0 & rolls >= 4])/n
 
-    p_c_given_d = dice_conditional_probability(p_d, p_c_and_d)
+    p_c_given_d = conditional_probability(p_d, p_c_and_d)
     return(list("P(C)"=p_c, "P(D)"=p_d, "P(C and D)"=p_c_and_d, "P(C|D)"=p_c_given_d))
 }
 
