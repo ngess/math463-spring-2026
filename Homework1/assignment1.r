@@ -85,7 +85,7 @@ weighted_dice_simulation <- function(n, probabilities) {
     p_c_and_d = length(rolls[rolls %% 3 == 0 & rolls >= 4])/n
 
     p_c_given_d = conditional_probability(p_d, p_c_and_d)
-    return(list("P(C)"=p_c, "P(D)"=p_d, "P(C and D)"=p_c_and_d, "P(C|D)"=p_c_given_d))
+    return(list("rolls"=rolls, "P(C)"=p_c, "P(D)"=p_d, "P(C and D)"=p_c_and_d, "P(C|D)"=p_c_given_d))
 }
 
 results_weighted = weighted_dice_simulation(10000, probabilities)
@@ -100,3 +100,36 @@ print(paste("P(C and D) = ", results_weighted$`P(C and D)`))
 
 print("Expected P(C|D) = 0.3333")
 print(paste("P(C|D) = ", results_weighted$`P(C|D)`))
+
+# Part 4 Visualization
+
+# Bar Chart
+rolls_simulation = table(results_weighted$`rolls`)
+png("simulation_results.png")
+bp_sim = barplot(
+    rolls_simulation, 
+    main="Dice Simulation Results", 
+    horiz=FALSE, 
+    names.arg=c(1,2,3,4,5,6),
+    col="skyblue",
+    xlab="Dice Face",
+    ylab="Frequency",
+    ylim=c(0, max(rolls_simulation) * 1.1) 
+)
+text(x = bp_sim, y = rolls_simulation, labels = rolls_simulation, pos = 3, cex = 1.2, col = "red")
+dev.off()
+
+png("expected_results.png")
+expected_counts = c(0.1 * 10000, 0.1 * 10000, 0.2 * 10000, 0.2 * 10000, 0.2 * 10000, 0.2 * 10000)
+bp_expect = barplot(
+    expected_counts,
+    main="Expected Dice Results", 
+    horiz=FALSE,
+    names.arg=c(1,2,3,4,5,6),    
+    col="skyblue",
+    xlab="Dice Face",
+    ylab="Expected Frequency",
+    ylim=c(0, max(expected_counts) * 1.1) 
+)
+text(x = bp_expect, y = expected_counts, labels = expected_counts, pos = 3, cex = 1.2, col = "red")
+dev.off()
